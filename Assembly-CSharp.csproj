@@ -55,7 +55,9 @@
   <ItemGroup>
      <Compile Include="Assets\CameraFeed.cs" />
      <Compile Include="Assets\NewBehaviourScript.cs" />
-     <Compile Include="Assets\Scenes\RotateCube.cs" />
+     <Compile Include="Assets\Scenes\CalculateProjectionMatrix.cs" />
+     <Compile Include="Assets\Scenes\RecognizeCorners.cs" />
+     <Compile Include="Assets\Scenes\Transform3DModel.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/dylra/Documents/ARQR/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
