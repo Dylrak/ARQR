@@ -4,17 +4,26 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-using ZXing;
-using ZXing.QrCode;
-using ZXing.Common;
-
+using AForge;
 
 public struct Square
 {
-    public Vector2 upperLeft;
-    public Vector2 upperRight;
-    public Vector2 lowerLeft;
-    public Vector2 lowerRight;
+    public IntPoint upperLeft;
+    public IntPoint upperRight;
+    public IntPoint lowerLeft;
+    public IntPoint lowerRight;
+
+    public Square(IntPoint upLeft, IntPoint upRight, IntPoint lowLeft, IntPoint lowRight)
+    {
+        upperLeft = upLeft;
+        upperRight = upRight;
+        lowerLeft = lowLeft;
+        lowerRight = lowRight;
+    }
+    public static implicit operator Square(Tuple<List<IntPoint>, Matrix4x4> square_points)
+    {
+        return new Square(square_points.Item1[0], square_points.Item1[1], square_points.Item1[2], square_points.Item1[3]);
+    }
 }
 
 public class RecognizeCorners : MonoBehaviour
@@ -44,24 +53,27 @@ public class RecognizeCorners : MonoBehaviour
 
     }
     // Obtain a list of all the squares which can be detected in the camera input image
-    public void getSquares(out Tuple<ResultPoint[], Matrix4x4> detected_square)
+    public void getSquares(out Tuple<List<IntPoint>, Matrix4x4> detected_square)
     {
+        Color[] webcam_image = camTexture.GetPixels();
+        QuadrilateralFinder qf = new QuadrilateralFinder();
+        List<IntPoint> corners = qf.ProcessImage(webcam_image);
         detected_square = null;
-        try
-        {
-            var barcodeReader = new BarcodeReader();
-            var result = barcodeReader.Decode(camTexture.GetPixels32(),
-                camTexture.width, camTexture.height);
-            if (result != null)
-            {
-                detected_square = new Tuple<ResultPoint[], Matrix4x4>(result.ResultPoints, new Matrix4x4());
-            }
+        //try
+        //{
+        //    var barcodeReader = new BarcodeReader();
+        //    var result = barcodeReader.Decode(camTexture.GetPixels32(),
+        //        camTexture.width, camTexture.height);
+        //    if (result != null)
+        //    {
+        //        detected_square = new Tuple<List<IntPoint>, Matrix4x4>(result.ResultPoints, new Matrix4x4());
+        //    }
 
-        }
-        catch (Exception ex)
-        {
-            Debug.LogWarning(ex.Message);
-            detected_square = null;
-        }
+        //}
+        //catch (Exception ex)
+        //{
+        //    Debug.LogWarning(ex.Message);
+        //    detected_square = null;
+        //}
     }
 }
