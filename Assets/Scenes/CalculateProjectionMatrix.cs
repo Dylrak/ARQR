@@ -9,13 +9,13 @@ public class CalculateProjectionMatrix : MonoBehaviour
 
     private RecognizeCorners recognizeCorners;
 
-    public Tuple<List<IntPoint>, Matrix4x4> detected_square;
+    public Tuple<Square, Matrix4x4> detected_square;
     
     void Awake()
     {
         webCamImage = GameObject.Find("WebCamImage");
         recognizeCorners = webCamImage.GetComponent<RecognizeCorners>();
-        detected_square = new Tuple<List<IntPoint>, Matrix4x4>(null, new Matrix4x4());
+        detected_square = new Tuple<Square, Matrix4x4>(new Square(), new Matrix4x4());
     }
     // Start is called before the first frame update
     void Start()
@@ -26,7 +26,7 @@ public class CalculateProjectionMatrix : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        recognizeCorners.getSquares(out detected_square);
+        recognizeCorners.getSquares(detected_square);
         //Calculating a projection matrix:
         /*  +-           -+   +-       -+   +-       -+
             | image_x * w |   | a  b  c |   | world_x |
@@ -34,21 +34,21 @@ public class CalculateProjectionMatrix : MonoBehaviour
             |       w     |   | g  h  1 |   |    1    |
             +-           -+   +-       -+   +-       -+ */
         Square ds = detected_square;
-        float h = (ds.upperLeft.X * (ds.upperRight.Y - ds.lowerRight.Y) +
-            ds.upperLeft.Y * (ds.lowerRight.X - ds.upperRight.X) +
-            ds.upperRight.X * ds.lowerLeft.Y - ds.upperRight.Y * ds.lowerLeft.X +
-            ds.lowerLeft.X * ds.lowerRight.Y - ds.lowerLeft.Y * ds.lowerRight.X) / 
-            (ds.upperRight.X * (ds.lowerRight.Y - ds.lowerLeft.Y) +
-            ds.upperRight.Y * (ds.lowerLeft.X - ds.lowerRight.X) - 
-            ds.lowerLeft.X * ds.lowerRight.Y + ds.lowerLeft.Y * ds.lowerRight.X);
-        float g = (-ds.upperLeft.X - (h + 1) * ds.lowerRight.X + h * ds.lowerLeft.X + 
-            ds.lowerLeft.X + ds.upperRight.X) / (ds.lowerRight.X - ds.upperRight.X);
-        float a = ds.upperRight.X * (g + 1) - ds.upperLeft.X;
-        float d = ds.upperRight.Y * (g + 1) - ds.upperLeft.Y;
-        float b = ds.lowerLeft.X * (h + 1) - ds.upperLeft.X;
-        float e = ds.lowerLeft.Y * (h + 1) - ds.upperLeft.Y;
-        float c = ds.upperLeft.X;
-        float f = ds.upperLeft.Y;
+        float h = (ds.upperLeft.x * (ds.upperRight.y - ds.lowerRight.y) +
+            ds.upperLeft.y * (ds.lowerRight.x - ds.upperRight.x) +
+            ds.upperRight.x * ds.lowerLeft.y - ds.upperRight.y * ds.lowerLeft.x +
+            ds.lowerLeft.x * ds.lowerRight.y - ds.lowerLeft.y * ds.lowerRight.x) / 
+            (ds.upperRight.x * (ds.lowerRight.y - ds.lowerLeft.y) +
+            ds.upperRight.y * (ds.lowerLeft.x - ds.lowerRight.x) - 
+            ds.lowerLeft.x * ds.lowerRight.y + ds.lowerLeft.y * ds.lowerRight.x);
+        float g = (-ds.upperLeft.x - (h + 1) * ds.lowerRight.x + h * ds.lowerLeft.x + 
+            ds.lowerLeft.x + ds.upperRight.x) / (ds.lowerRight.x - ds.upperRight.x);
+        float a = ds.upperRight.x * (g + 1) - ds.upperLeft.x;
+        float d = ds.upperRight.y * (g + 1) - ds.upperLeft.y;
+        float b = ds.lowerLeft.x * (h + 1) - ds.upperLeft.x;
+        float e = ds.lowerLeft.y * (h + 1) - ds.upperLeft.y;
+        float c = ds.upperLeft.x;
+        float f = ds.upperLeft.y;
         //Now that we have a through h, we need to put it into a Matrix4x4:
         /*+-          -+
             | a  b  c  0 |

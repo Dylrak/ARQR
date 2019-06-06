@@ -405,7 +405,7 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 15bef967b348bc34b9ed8686d757cb07, type: 2}
+  m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -453,6 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aea97259cf535f4f901c425433102d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rawImage: {fileID: 0}
 --- !u!1 &980149481
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,4 +641,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc9876239f6de14faa74d0e5a273ae2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  webCamImage: {fileID: 0}

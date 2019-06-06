@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 //Transform 'this' according to Matrix4x4 in parameter
@@ -60,6 +62,7 @@ public class Transform3DModel : MonoBehaviour
     {
         eventSystem = GameObject.Find("EventSystem");
         calculateProjectionMatrix = eventSystem.GetComponent<CalculateProjectionMatrix>();
+        
     }
     // Start is called before the first frame update
     void Start()
@@ -70,8 +73,8 @@ public class Transform3DModel : MonoBehaviour
     // LateUpdate is called once per frame, after all other Update()-calls are finished.
     void LateUpdate()
     {
-        transform.FromMatrix(calculateProjectionMatrix.detected_square.Item2);
+        TransformExtensions.FromMatrix(transform, calculateProjectionMatrix.detected_square.Item2);
         //Placeholder:
-        transform.Rotate(1f, 1f, 1f);
+        //transform.Rotate(1f, 1f, 1f);
     }
 }
