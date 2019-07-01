@@ -73,7 +73,7 @@ public class Transform3DModel : MonoBehaviour
     // LateUpdate is called once per frame, after all other Update()-calls are finished.
     void LateUpdate()
     {
-        TransformExtensions.FromMatrix(transform, calculateProjectionMatrix.detected_square.Item2);
+        TransformExtensions.FromMatrix(transform, calculateProjectionMatrix.detected_rectangle.Item2);
         //Placeholder:
         //transform.Rotate(1f, 1f, 1f);
     }
