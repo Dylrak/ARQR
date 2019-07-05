@@ -52,6 +52,7 @@ public static class MatrixExtensions
     }
 }
 
+//Script which transforms 'this' object according to the calculated projection matrix
 public class Transform3DModel : MonoBehaviour
 {
     public GameObject eventSystem;
@@ -60,20 +61,24 @@ public class Transform3DModel : MonoBehaviour
 
     void Awake()
     {
+        //Find CalculateProjectionMatrix script
         eventSystem = GameObject.Find("EventSystem");
         calculateProjectionMatrix = eventSystem.GetComponent<CalculateProjectionMatrix>();
         
     }
-    // Start is called before the first frame update
+
     void Start()
     {
 
     }
 
-    // LateUpdate is called once per frame, after all other Update()-calls are finished.
+    // LateUpdate is called once per frame, after all other Update()-calls are finished
     void LateUpdate()
     {
-        TransformExtensions.FromMatrix(transform, calculateProjectionMatrix.detected_rectangle.Item2);
+        //transform 'this' according to the detected quarternion's calculated projection matrix
+        //detected_quarternion is updated in every Update()-call, so we use LateUpdate to transform 'this' object
+        TransformExtensions.FromMatrix(transform, calculateProjectionMatrix.detected_quarternion.Item2);
+
         //Placeholder:
         //transform.Rotate(1f, 1f, 1f);
     }

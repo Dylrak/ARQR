@@ -5,30 +5,31 @@ using System.Collections;
 using System.Collections.Generic;
 using OpenCvSharp;
 
+//Struct which contains four corner pixel points, creating a quarternion
 
-public struct Rectangle
+public struct Quarternion
 {
     public Vector2 upperLeft;
     public Vector2 upperRight;
     public Vector2 lowerLeft;
     public Vector2 lowerRight;
 
-    public Rectangle(Vector2 upLeft, Vector2 upRight, Vector2 lowLeft, Vector2 lowRight)
+    public Quarternion(Vector2 upLeft, Vector2 upRight, Vector2 lowLeft, Vector2 lowRight)
     {
         upperLeft = upLeft;
         upperRight = upRight;
         lowerLeft = lowLeft;
         lowerRight = lowRight;
     }
-    public static implicit operator Rectangle(Tuple<Rectangle, Matrix4x4> Rectangle_points)
+    public static implicit operator Quarternion(Tuple<Quarternion, Matrix4x4> quarternion_points)
     {
-        return Rectangle_points.Item1;
+        return quarternion_points.Item1;
     }
 
-    //Convert list of list of points to a singular Rectangle
-    public static implicit operator Rectangle(Point[][] contours)
+    //Convert list of list of points to a singular Quarternion
+    public static implicit operator Quarternion(Point[][] contours)
     {
-        return new Rectangle(new Vector2(contours[0][0].X, contours[0][0].Y),
+        return new Quarternion(new Vector2(contours[0][0].X, contours[0][0].Y),
             new Vector2(contours[0][1].X, contours[0][1].Y),
             new Vector2(contours[0][2].X, contours[0][2].Y),
             new Vector2(contours[0][3].X, contours[0][3].Y));
